@@ -4,7 +4,6 @@ from .initialization import initialize_random, initialize_probabilistic
 
 
 class CMeans:
-
     metric = 'euclidean'
     initialization = staticmethod(initialize_random)
 
@@ -68,14 +67,13 @@ class CMeans:
 
 
 class Hard(CMeans):
-
     def calculate_memberships(self, x):
         distances = self.distances(x)
         return np.arange(distances.shape[0])[:, np.newaxis] == np.argmin(
             distances, axis=0)
 
     def calculate_centers(self, x):
-        return np.dot(self.memberships, x) /\
+        return np.dot(self.memberships, x) / \
                np.sum(self.memberships, axis=1)[..., np.newaxis]
 
     def objective(self, x):
@@ -84,7 +82,6 @@ class Hard(CMeans):
 
 
 class Fuzzy(CMeans):
-
     m = 2
 
     def fuzzifier(self, memberships):
@@ -96,7 +93,6 @@ class Fuzzy(CMeans):
 
 
 class Probabilistic(Fuzzy):
-
     def calculate_memberships(self, x):
         distances = self.distances(x)
         return 1 / np.sum(
@@ -109,7 +105,6 @@ class Probabilistic(Fuzzy):
 
 
 class Possibilistic(Fuzzy):
-
     initialization = staticmethod(initialize_probabilistic)
     _weights = None
 
@@ -134,9 +129,7 @@ class Possibilistic(Fuzzy):
 
 
 class GustafsonKesselMixin(Fuzzy):
-
     def distances(self, x):
-
         d = x - self.centers[:, np.newaxis]
         covariance = self.covariance(x, self.centers)
         left_multiplier = np.einsum('...ij,...jk', d, np.linalg.inv(covariance))
@@ -150,9 +143,8 @@ class GustafsonKesselMixin(Fuzzy):
         fuzzy_memberships = self.fuzzifier(self.memberships)
         right_multiplier = np.einsum('...i,...j->...ij', vector_difference,
                                      vector_difference)
-        einstein_sum = np.einsum('...i,...ijk', fuzzy_memberships,
-                                 right_multiplier) / \
-                       np.sum(fuzzy_memberships, axis=1)[
-                           ..., np.newaxis, np.newaxis]
+        einstein_sum = \
+            np.einsum('...i,...ijk', fuzzy_memberships, right_multiplier) / \
+            np.sum(fuzzy_memberships, axis=1)[..., np.newaxis, np.newaxis]
         return einstein_sum / np.power(np.linalg.det(einstein_sum), (1. / p))[
             ..., np.newaxis, np.newaxis]
