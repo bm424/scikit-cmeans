@@ -39,7 +39,7 @@ def initialize_probabilistic(x, k, random_state=None):
         The original data.
     k : int
         The number of points to select.
-    random_state : int or :class:`np.random.RandomState`, optional
+    random_state : int or :obj:`np.random.RandomState`, optional
         The generator used for initialization. Using an integer fixes the seed.
 
     Returns
