@@ -1,0 +1,438 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyfcm.algorithms &#8212; pyfcm 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="pyfcm 1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyfcm.algorithms</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Implementations of a number of C-means algorithms.</span>
+
+<span class="sd">References</span>
+<span class="sd">----------</span>
+<span class="sd">.. [1] J. C. Bezdek, J. Keller, R. Krisnapuram, and N. R. Pal, Fuzzy models</span>
+<span class="sd">   and algorithms for pattern recognition and image processing. Kluwer Academic</span>
+<span class="sd">   Publishers, 2005.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="k">import</span> <span class="n">cdist</span>
+<span class="kn">from</span> <span class="nn">.initialization</span> <span class="k">import</span> <span class="n">initialize_random</span><span class="p">,</span> <span class="n">initialize_probabilistic</span>
+
+
+<div class="viewcode-block" id="CMeans"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.CMeans">[docs]</a><span class="k">class</span> <span class="nc">CMeans</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Base class for C-means algorithms.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_clusters : int, optional</span>
+<span class="sd">        The number of clusters to find.</span>
+<span class="sd">    n_init : int, optional</span>
+<span class="sd">        The number of times to attempt convergence with new initial centroids.</span>
+<span class="sd">    max_iter : int, optional</span>
+<span class="sd">        The number of cycles of the alternating optimization routine to run for</span>
+<span class="sd">        *each* convergence.</span>
+<span class="sd">    tol : float, optional</span>
+<span class="sd">        The stopping condition. Convergence is considered to have been reached</span>
+<span class="sd">        when the objective function changes less than `tol`.</span>
+<span class="sd">    verbosity : int, optional</span>
+<span class="sd">        The verbosity of the instance. May be 0, 1, or 2.</span>
+<span class="sd">        .. note:: Very much not yet implemented.</span>
+<span class="sd">    random_state : :obj:`int` or :obj:`np.random.RandomState`, optional</span>
+<span class="sd">        The generator used for initialization. Using an integer fixes the seed.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    metric : :obj:`string` or :obj:`function`</span>
+<span class="sd">        The distance metric used. May be any of the strings specified for</span>
+<span class="sd">        :obj:`cdist`, or a user-specified function.</span>
+<span class="sd">    initialization : function</span>
+<span class="sd">        The method used to initialize the cluster centers.</span>
+<span class="sd">    centers : :obj:`np.ndarray`</span>
+<span class="sd">        (n_clusters, n_features)</span>
+<span class="sd">        The derived or supplied cluster centers.</span>
+<span class="sd">    memberships : :obj:`np.ndarray`</span>
+<span class="sd">        (n_samples, n_clusters)</span>
+<span class="sd">        The derived or supplied cluster memberships.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">metric</span> <span class="o">=</span> <span class="s1">&#39;euclidean&#39;</span>
+    <span class="n">initialization</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">initialize_random</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span>
+                 <span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="n">n_clusters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_init</span> <span class="o">=</span> <span class="n">n_init</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_iter</span> <span class="o">=</span> <span class="n">max_iter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tol</span> <span class="o">=</span> <span class="n">tol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbosity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memberships</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="CMeans.distances"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.CMeans.distances">[docs]</a>    <span class="k">def</span> <span class="nf">distances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculates the distance between data x and the centers.</span>
+
+<span class="sd">        The distance, by default, is calculated according to `metric`, but this</span>
+<span class="sd">        method should be overridden by subclasses if required.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : :obj:`np.ndarray`</span>
+<span class="sd">            (n_samples, n_features)</span>
+<span class="sd">            The original data.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :obj:`np.ndarray`</span>
+<span class="sd">            (n_samples, n_clusters)</span>
+<span class="sd">            Each entry (i, j) is the distance between sample i and cluster</span>
+<span class="sd">            center j.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">cdist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CMeans.calculate_memberships"><a class="viewcode-back" href="../../pyfcm.html#pyfcm.algorithms.CMeans.calculate_memberships">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_memberships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;`calculate_memberships` should be implemented by subclasses.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CMeans.calculate_centers"><a class="viewcode-back" href="../../pyfcm.html#pyfcm.algorithms.CMeans.calculate_centers">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_centers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;`calculate_centers` should be implemented by subclasses.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CMeans.objective"><a class="viewcode-back" href="../../pyfcm.html#pyfcm.algorithms.CMeans.objective">[docs]</a>    <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;`objective` should be implemented by subclasses.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CMeans.fit"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.CMeans.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Optimizes cluster centers by restarting convergence several times.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : :obj:`np.ndarray`</span>
+<span class="sd">            (n_samples, n_features)</span>
+<span class="sd">            The original data.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objective_best</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span>
+        <span class="n">memberships_best</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">centers_best</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_init</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">converge</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">objective</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objective</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">objective</span> <span class="o">&lt;</span> <span class="n">objective_best</span><span class="p">:</span>
+                <span class="n">memberships_best</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">centers_best</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">objective_best</span> <span class="o">=</span> <span class="n">objective</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memberships</span> <span class="o">=</span> <span class="n">memberships_best</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="o">=</span> <span class="n">centers_best</span></div>
+
+<div class="viewcode-block" id="CMeans.converge"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.CMeans.converge">[docs]</a>    <span class="k">def</span> <span class="nf">converge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Finds cluster centers through an alternating optimization routine.</span>
+
+<span class="sd">        Terminates when either the number of cycles reaches `max_iter` or the</span>
+<span class="sd">        objective function changes by less than `tol`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : :obj:`np.ndarray`</span>
+<span class="sd">            (n_samples, n_features)</span>
+<span class="sd">            The original data.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">j_new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objective</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_iter</span><span class="p">):</span>
+            <span class="n">j_old</span> <span class="o">=</span> <span class="n">j_new</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">j_new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objective</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">j_old</span> <span class="o">-</span> <span class="n">j_new</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
+                <span class="k">break</span></div>
+
+<div class="viewcode-block" id="CMeans.update"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.CMeans.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates cluster memberships and centers in a single cycle.</span>
+
+<span class="sd">        If the cluster centers have not already been initialized, they are</span>
+<span class="sd">        chosen according to `initialization`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : :obj:`np.ndarray`</span>
+<span class="sd">            (n_samples, n_features)</span>
+<span class="sd">            The original data.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_centers</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialization</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">,</span>
+                                               <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memberships</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_memberships</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Hard"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.Hard">[docs]</a><span class="k">class</span> <span class="nc">Hard</span><span class="p">(</span><span class="n">CMeans</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Hard C-means, equivalent to K-means clustering.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate_memberships(x)</span>
+<span class="sd">        The membership of a sample is 1 to the closest cluster and 0 otherwise.</span>
+<span class="sd">    calculate_centers(x)</span>
+<span class="sd">        New centers are calculated as the mean of the points closest to them.</span>
+<span class="sd">    objective(x)</span>
+<span class="sd">        Interpretable as the data&#39;s rotational inertia about the cluster</span>
+<span class="sd">        centers. To be minimised.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Hard.calculate_memberships"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.Hard.calculate_memberships">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_memberships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span>
+            <span class="n">distances</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Hard.calculate_centers"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.Hard.calculate_centers">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_centers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> \
+               <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Hard.objective"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.Hard.objective">[docs]</a>    <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span> <span class="o">*</span> <span class="n">distances</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Fuzzy"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.Fuzzy">[docs]</a><span class="k">class</span> <span class="nc">Fuzzy</span><span class="p">(</span><span class="n">CMeans</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for fuzzy C-means clusters.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m : float</span>
+<span class="sd">        Fuzziness parameter. Higher values reduce the rate of drop-off from</span>
+<span class="sd">        full membership to zero membership.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    fuzzifier(memberships)</span>
+<span class="sd">        Fuzzification operator. By default, for memberships $u$ this is $u^m$.</span>
+<span class="sd">    objective(x)</span>
+<span class="sd">        Interpretable as the data&#39;s weighted rotational inertia about the</span>
+<span class="sd">        cluster centers. To be minimised.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="mi">2</span>
+
+<div class="viewcode-block" id="Fuzzy.fuzzifier"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.Fuzzy.fuzzifier">[docs]</a>    <span class="k">def</span> <span class="nf">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memberships</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">memberships</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Fuzzy.objective"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.Fuzzy.objective">[docs]</a>    <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">)</span> <span class="o">*</span> <span class="n">distances</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Probabilistic"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.Probabilistic">[docs]</a><span class="k">class</span> <span class="nc">Probabilistic</span><span class="p">(</span><span class="n">Fuzzy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Probabilistic C-means.</span>
+
+<span class="sd">    In the probabilistic algorithm, sample points have total membership of</span>
+<span class="sd">    unity, distributed equally among each of the centers. This tends to push</span>
+<span class="sd">    cluster centers away from each other.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate_memberships(x)</span>
+<span class="sd">        Memberships are calculated from the distance $d_{ij}$ between the sample</span>
+<span class="sd">        $j$ and the cluster center $i$</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            u_{ik} = \left(\sum_j \left(\frac{d_{ik}}{d_{jk}}\right)^\frac{2}{m</span>
+<span class="sd">            -1} \right)^{-1}</span>
+<span class="sd">    calculate_centers(x)</span>
+<span class="sd">        New centers are calculated as the mean of the points closest to them,</span>
+<span class="sd">        weighted by the fuzzified memberships.</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            c_i = \left. \sum_k u_{ik}^m x_k \middle/ \sum_k u_{ik} \right.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Probabilistic.calculate_memberships"><a class="viewcode-back" href="../../pyfcm.html#pyfcm.algorithms.Probabilistic.calculate_memberships">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_memberships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">distances</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]),</span>
+                     <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Probabilistic.calculate_centers"><a class="viewcode-back" href="../../pyfcm.html#pyfcm.algorithms.Probabilistic.calculate_centers">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_centers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> \
+               <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="Possibilistic"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.Possibilistic">[docs]</a><span class="k">class</span> <span class="nc">Possibilistic</span><span class="p">(</span><span class="n">Fuzzy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Possibilistic C-means.</span>
+
+<span class="sd">    In the possibilistic algorithm, sample points are assigned memberships</span>
+<span class="sd">    according to their relative proximity to the centers. This is controlled</span>
+<span class="sd">    through a weighting to the cluster centers, approximately the variance of</span>
+<span class="sd">    each cluster.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    calculate_memberships(x)</span>
+<span class="sd">        Memberships are calculated from the distance $d_{ij}$ between the sample</span>
+<span class="sd">        $j$ and the cluster center $i$, and the weighting $w_i$ of each center.</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            u_{ik} = \left(1 + \left(\frac{d_{ik}}{w_i}\right)^\frac{1}{m</span>
+<span class="sd">            -1} \right)^{-1}</span>
+<span class="sd">    calculate_centers(x)</span>
+<span class="sd">        New centers are calculated as the mean of the points closest to them,</span>
+<span class="sd">        weighted by the fuzzified memberships.</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">            c_i = \left. \sum_k u_{ik}^m x_k \middle/ \sum_k u_{ik} \right.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">initialization</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">initialize_probabilistic</span><span class="p">)</span>
+    <span class="n">_weights</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Possibilistic.weights"><a class="viewcode-back" href="../../pyfcm.html#pyfcm.algorithms.Possibilistic.weights">[docs]</a>    <span class="k">def</span> <span class="nf">weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">memberships</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_memberships</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="n">memberships</span><span class="p">)</span> <span class="o">*</span> <span class="n">distances</span><span class="p">,</span>
+                                   <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="n">memberships</span><span class="p">),</span>
+                                                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span></div>
+
+<div class="viewcode-block" id="Possibilistic.calculate_memberships"><a class="viewcode-back" href="../../pyfcm.html#pyfcm.algorithms.Possibilistic.calculate_memberships">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_memberships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="p">(</span><span class="n">distances</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">(</span><span class="n">x</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span> <span class="o">**</span> <span class="p">(</span>
+            <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">**</span> <span class="o">-</span><span class="mf">1.</span></div>
+
+<div class="viewcode-block" id="Possibilistic.calculate_centers"><a class="viewcode-back" href="../../pyfcm.html#pyfcm.algorithms.Possibilistic.calculate_centers">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_centers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">),</span> <span class="n">x</span><span class="p">),</span>
+                         <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span>
+                             <span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span></div></div>
+
+
+<div class="viewcode-block" id="GustafsonKesselMixin"><a class="viewcode-back" href="../../pyfcm.algorithms.html#pyfcm.algorithms.GustafsonKesselMixin">[docs]</a><span class="k">class</span> <span class="nc">GustafsonKesselMixin</span><span class="p">(</span><span class="n">Fuzzy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gives clusters ellipsoidal character.</span>
+
+<span class="sd">    The Gustafson-Kessel algorithm redefines the distance measurement such that</span>
+<span class="sd">    clusters may adopt ellipsoidal shapes. This is achieved through updates to</span>
+<span class="sd">    a covariance matrix assigned to each cluster center.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Create a algorithm for probabilistic clustering with ellipsoidal clusters:</span>
+
+<span class="sd">    &gt;&gt;&gt; class ProbabilisticGustafsonKessel(GustafsonKesselMixin, Probabilistic):</span>
+<span class="sd">    &gt;&gt;&gt;     pass</span>
+<span class="sd">    &gt;&gt;&gt; pgk = ProbabilisticGustafsonKessel()</span>
+<span class="sd">    &gt;&gt;&gt; pgk.fit(x)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GustafsonKesselMixin.distances"><a class="viewcode-back" href="../../pyfcm.html#pyfcm.algorithms.GustafsonKesselMixin.distances">[docs]</a>    <span class="k">def</span> <span class="nf">distances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="n">covariance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centers</span><span class="p">)</span>
+        <span class="n">left_multiplier</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;...ij,...jk&#39;</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">covariance</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">left_multiplier</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GustafsonKesselMixin.covariance"><a class="viewcode-back" href="../../pyfcm.html#pyfcm.algorithms.GustafsonKesselMixin.covariance">[docs]</a>    <span class="k">def</span> <span class="nf">covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="n">q</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">memberships</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">p</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)))</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">vector_difference</span> <span class="o">=</span> <span class="n">u</span> <span class="o">-</span> <span class="n">v</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="n">fuzzy_memberships</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">)</span>
+        <span class="n">right_multiplier</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;...i,...j-&gt;...ij&#39;</span><span class="p">,</span> <span class="n">vector_difference</span><span class="p">,</span>
+                                     <span class="n">vector_difference</span><span class="p">)</span>
+        <span class="n">einstein_sum</span> <span class="o">=</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;...i,...ijk&#39;</span><span class="p">,</span> <span class="n">fuzzy_memberships</span><span class="p">,</span> <span class="n">right_multiplier</span><span class="p">)</span> <span class="o">/</span> \
+            <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fuzzy_memberships</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">einstein_sum</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">einstein_sum</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">p</span><span class="p">))[</span>
+            <span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Ben Martineau.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

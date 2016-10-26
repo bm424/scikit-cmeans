@@ -227,11 +227,12 @@ dummy:
 
 .PHONY: gh-pages
 gh-pages:
-	git checkout gh-pages
-	git checkout master ./
+	rm -rf _build
 	make html
-	mv -fv _build/html/* ../
-	rm -rf ./*
+	git checkout gh-pages
+	git checkout master /_build/html
+	rsync -av --delete ./_build/html/* ..
+	rm -rf _build
 	git add -A
 	git commit -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`" && git push origin gh-pages
 	git checkout master
