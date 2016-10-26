@@ -228,7 +228,7 @@ dummy:
 .PHONY: gh-pages
 gh-pages:
 	git checkout gh-pages
-	make clean
+	rm -rf $(BUILDDIR)/*
 	git checkout master $(GH_PAGES_SOURCES)
 	git reset HEAD
 	make html
