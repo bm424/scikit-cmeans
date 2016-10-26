@@ -227,12 +227,13 @@ dummy:
 
 .PHONY: gh-pages
 gh-pages:
+	cd ..
 	git checkout gh-pages
-	rm -rf $(BUILDDIR)/*
-	git checkout master $(GH_PAGES_SOURCES)
-	git reset HEAD
+	git checkout master docs
+	cd docs
 	make html
-	mv -fv _build/html/* ../
-	rm -rf _build _sources _static
+	cd ..
+	mv -fv docs/_build/html/* .
+	rm -rf docs
 	git add -A
 	git ci -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`" && git push origin gh-pages ; git checkout master
