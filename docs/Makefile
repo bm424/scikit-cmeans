@@ -228,12 +228,10 @@ dummy:
 .PHONY: gh-pages
 gh-pages:
 	git checkout gh-pages
-	git checkout master ./* Makefile
+	git checkout master ./
 	make html
-	cd ..
-	mv -fv docs/_build/html/* .
-	rm -rf docs
+	mv -fv _build/html/* ../
+	rm -rf ./*
 	git add -A
-	git ci -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`" && git push origin gh-pages
+	git commit -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`" && git push origin gh-pages
 	git checkout master
-	cd docs
