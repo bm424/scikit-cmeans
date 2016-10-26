@@ -6,6 +6,12 @@
 Welcome to pyfcm's documentation!
 =================================
 
+PyFCM is a (currently rather small) package designed to facilitate
+exploration of fuzzy clustering algorithms in a way that is both readily
+usable and easily extended. The API is loosely based on that of `scikit-learn
+ <http://scikit-learn.org/>`_.
+
+
 Contents:
 
 .. toctree::
