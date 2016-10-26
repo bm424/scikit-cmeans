@@ -227,10 +227,8 @@ dummy:
 
 .PHONY: gh-pages
 gh-pages:
-	cd ..
 	git checkout gh-pages
-	git checkout master docs
-	cd docs
+	git checkout master ./* Makefile
 	make html
 	cd ..
 	mv -fv docs/_build/html/* .
