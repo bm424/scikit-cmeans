@@ -232,8 +232,8 @@ class Probabilistic(Fuzzy):
     Methods
     -------
     calculate_memberships(x)
-        Memberships are calculated from the distance $d_{ij}$ between the sample
-        $j$ and the cluster center $i$
+        Memberships are calculated from the distance :math:`d_{ij}` between the
+        sample :math:`j` and the cluster center :math:`i`.
 
         .. math::
 
