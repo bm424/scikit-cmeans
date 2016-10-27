@@ -237,15 +237,13 @@ class Probabilistic(Fuzzy):
 
         .. math::
 
-            u_{ik} = \left(\sum_j \left(\frac{d_{ik}}{d_{jk}}\right)^\frac{2}{m
-            -1} \right)^{-1}
+            u_{ik} = \left(\sum_j \left( \\frac{d_{ik}}{d_{jk}} \\right)^{\\frac{2}{m - 1}} \\right)^{-1}
+
     calculate_centers(x)
         New centers are calculated as the mean of the points closest to them,
         weighted by the fuzzified memberships.
 
-        .. math::
-
-            c_i = \left. \sum_k u_{ik}^m x_k \middle/ \sum_k u_{ik} \right.
+        .. math:: c_i = \left. \sum_k u_{ik}^m x_k \middle/ \sum_k u_{ik} \\right.
 
     """
     def calculate_memberships(self, x):
@@ -270,20 +268,22 @@ class Possibilistic(Fuzzy):
     Methods
     -------
     calculate_memberships(x)
-        Memberships are calculated from the distance $d_{ij}$ between the sample
-        $j$ and the cluster center $i$, and the weighting $w_i$ of each center.
+        Memberships are calculated from the distance :math:`d_{ij}` between the
+        sample :math:`j` and the cluster center :math:`i`, and the weighting
+        :math:`w_i` of each center.
 
         .. math::
 
-            u_{ik} = \left(1 + \left(\frac{d_{ik}}{w_i}\right)^\frac{1}{m
-            -1} \right)^{-1}
+            u_{ik} = \left(1 + \left(\\frac{d_{ik}}{w_i}\\right)^\\frac{1}{m
+            -1} \\right)^{-1}
+
     calculate_centers(x)
         New centers are calculated as the mean of the points closest to them,
         weighted by the fuzzified memberships.
 
         .. math::
 
-            c_i = \left. \sum_k u_{ik}^m x_k \middle/ \sum_k u_{ik} \right.
+            c_i = \left. \sum_k u_{ik}^m x_k \middle/ \sum_k u_{ik} \\right.
 
     """
 
