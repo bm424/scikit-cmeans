@@ -1,3 +1,7 @@
 dl.class {
     border-bottom : solid lightgrey thin;
 }
+
+dd {
+    margin-left : 32px;
+}
