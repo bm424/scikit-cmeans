@@ -379,6 +379,8 @@ class GustafsonKesselMixin(Fuzzy):
         Extends the default behaviour by including a covariance calculation
         after updating the centers
 
+        Parameters
+        ----------
         x : :obj:`np.ndarray`
             (n_samples, n_features)
             The original data.

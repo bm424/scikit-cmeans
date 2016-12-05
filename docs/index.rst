@@ -11,6 +11,10 @@ exploration of fuzzy clustering algorithms in a way that is both readily
 usable and easily extended. The API is loosely based on that of
 `scikit-learn <http://scikit-learn.org/>`_.
 
+..image:: demo.png
+    :align: center
+    :alt: Example of a fuzzy cluster result
+
 
 .. toctree::
 
