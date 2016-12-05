@@ -30,7 +30,9 @@ class CMeans:
         when the objective function changes less than `tol`.
     verbosity : int, optional
         The verbosity of the instance. May be 0, 1, or 2.
+
         .. note:: Very much not yet implemented.
+
     random_state : :obj:`int` or :obj:`np.random.RandomState`, optional
         The generator used for initialization. Using an integer fixes the seed.
     eps : float, optional
