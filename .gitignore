@@ -92,3 +92,7 @@ ENV/
 
 # PyCharm project settings
 .idea
+
+# Custom
+res/
+*.ipynb

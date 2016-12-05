@@ -7,9 +7,9 @@ References
    Publishers, 2005.
 
 """
-
 import numpy as np
 from scipy.spatial.distance import cdist
+
 from .initialization import initialize_random, initialize_probabilistic
 
 
@@ -33,6 +33,9 @@ class CMeans:
         .. note:: Very much not yet implemented.
     random_state : :obj:`int` or :obj:`np.random.RandomState`, optional
         The generator used for initialization. Using an integer fixes the seed.
+    eps : float, optional
+        To avoid numerical errors, zeros are sometimes replaced with a very
+        small number, specified here.
 
     Attributes
     ----------
@@ -54,13 +57,14 @@ class CMeans:
     initialization = staticmethod(initialize_random)
 
     def __init__(self, n_clusters=2, n_init=10, max_iter=300, tol=1e-4,
-                 verbosity=0, random_state=None, **kwargs):
+                 verbosity=0, random_state=None, eps=1e-18, **kwargs):
         self.n_clusters = n_clusters
         self.n_init = n_init
         self.max_iter = max_iter
         self.tol = tol
-        self.verbose = verbosity
+        self.verbosity = verbosity
         self.random_state = random_state
+        self.eps = eps
         self.params = kwargs
         self.centers = None
         self.memberships = None
@@ -112,15 +116,20 @@ class CMeans:
         objective_best = np.infty
         memberships_best = None
         centers_best = None
+        j_list = []
         for i in range(self.n_init):
+            self.centers = None
+            self.memberships = None
             self.converge(x)
             objective = self.objective(x)
+            j_list.append(objective)
             if objective < objective_best:
                 memberships_best = self.memberships.copy()
                 centers_best = self.centers.copy()
                 objective_best = objective
         self.memberships = memberships_best
         self.centers = centers_best
+        return j_list
 
     def converge(self, x):
         """Finds cluster centers through an alternating optimization routine.
@@ -135,13 +144,16 @@ class CMeans:
             The original data.
 
         """
-        j_new = self.objective(x)
+        centers = []
+        j_new = np.infty
         for i in range(self.max_iter):
             j_old = j_new
             self.update(x)
+            centers.append(self.centers)
             j_new = self.objective(x)
-            if j_old - j_new < self.tol:
+            if np.abs(j_old - j_new) < self.tol:
                 break
+        return np.array(centers)
 
     def update(self, x):
         """Updates cluster memberships and centers in a single cycle.
@@ -156,12 +168,20 @@ class CMeans:
             The original data.
 
         """
-        if self.centers is not None:
-            self.centers = self.calculate_centers(x)
-        else:
-            self.centers = self.initialization(x, self.n_clusters,
-                                               self.random_state)
+        self.initialize(x)
         self.memberships = self.calculate_memberships(x)
+        self.centers = self.calculate_centers(x)
+
+    def initialize(self, x):
+        if self.centers is None and self.memberships is None:
+            self.memberships, self.centers = \
+                self.initialization(x, self.n_clusters, self.random_state)
+        elif self.memberships is None:
+            self.memberships = \
+                self.initialization(x, self.n_clusters, self.random_state)[0]
+        elif self.centers is None:
+            self.centers = \
+                self.initialization(x, self.n_clusters, self.random_state)[1]
 
 
 class Hard(CMeans):
@@ -181,14 +201,16 @@ class Hard(CMeans):
 
     def calculate_memberships(self, x):
         distances = self.distances(x)
-        return np.arange(distances.shape[0])[:, np.newaxis] == np.argmin(
-            distances, axis=0)
+        return (np.arange(distances.shape[1])[:, np.newaxis] == np.argmin(
+            distances, axis=1)).T
 
     def calculate_centers(self, x):
-        return np.dot(self.memberships, x) / \
-               np.sum(self.memberships, axis=1)[..., np.newaxis]
+        return np.dot(self.memberships.T, x) / \
+               np.sum(self.memberships, axis=0)[..., np.newaxis]
 
     def objective(self, x):
+        if self.memberships is None or self.centers is None:
+            return np.infty
         distances = self.distances(x)
         return np.sum(self.memberships * distances)
 
@@ -218,6 +240,8 @@ class Fuzzy(CMeans):
         return np.power(memberships, self.m)
 
     def objective(self, x):
+        if self.memberships is None or self.centers is None:
+            return np.infty
         distances = self.distances(x)
         return np.sum(self.fuzzifier(self.memberships) * distances)
 
@@ -248,13 +272,14 @@ class Probabilistic(Fuzzy):
     """
     def calculate_memberships(self, x):
         distances = self.distances(x)
-        return 1 / np.sum(
-            np.power(np.divide(distances, distances[:, np.newaxis]),
-                     2 / (self.m - 1)), axis=0)
+        distances[distances == 0.] = 1e-18
+        return np.sum(np.power(
+            np.divide(distances[:, :, np.newaxis], distances[:, np.newaxis, :]),
+            2 / (self.m - 1)), axis=2) ** -1
 
     def calculate_centers(self, x):
-        return np.dot(self.fuzzifier(self.memberships), x) / \
-               np.sum(self.fuzzifier(self.memberships), axis=1)[..., np.newaxis]
+        return np.dot(self.fuzzifier(self.memberships).T, x) / \
+               np.sum(self.fuzzifier(self.memberships).T, axis=1)[..., np.newaxis]
 
 
 class Possibilistic(Fuzzy):
@@ -293,20 +318,20 @@ class Possibilistic(Fuzzy):
     def weights(self, x):
         if self._weights is None:
             distances = self.distances(x)
-            memberships = self.calculate_memberships(x)
+            memberships = self.memberships
             self._weights = np.sum(self.fuzzifier(memberships) * distances,
-                                   axis=1) / np.sum(self.fuzzifier(memberships),
-                                                    axis=1)
+                                   axis=0) / np.sum(self.fuzzifier(memberships),
+                                                    axis=0)
         return self._weights
 
     def calculate_memberships(self, x):
         distances = self.distances(x)
-        return (1. + (distances / self.weights(x)[:, np.newaxis]) ** (
+        return (1. + (distances / self.weights(x)) ** (
             1. / (self.m - 1))) ** -1.
 
     def calculate_centers(self, x):
-        return np.divide(np.dot(self.fuzzifier(self.memberships), x),
-                         np.sum(self.fuzzifier(self.memberships), axis=1)[
+        return np.divide(np.dot(self.fuzzifier(self.memberships).T, x),
+                         np.sum(self.fuzzifier(self.memberships), axis=0)[
                              ..., np.newaxis])
 
 
@@ -327,23 +352,80 @@ class GustafsonKesselMixin(Fuzzy):
     >>> pgk.fit(x)
 
     """
+    covariance = None
+
+    def fit(self, x):
+        """Optimizes cluster centers by restarting convergence several times.
+
+        Extends the default behaviour by recalculating the covariance matrix
+        with resultant memberships and centers.
+
+        Parameters
+        ----------
+        x : :obj:`np.ndarray`
+            (n_samples, n_features)
+            The original data.
+
+        """
+        j_list = super(GustafsonKesselMixin, self).fit(x)
+        self.covariance = self.calculate_covariance(x)
+        return j_list
+
+    def update(self, x):
+        """Single update of the cluster algorithm.
+
+        Extends the default behaviour by including a covariance calculation
+        after updating the centers
+
+        x : :obj:`np.ndarray`
+            (n_samples, n_features)
+            The original data.
+
+        """
+        self.initialize(x)
+        self.centers = self.calculate_centers(x)
+        self.covariance = self.calculate_covariance(x)
+        self.memberships = self.calculate_memberships(x)
 
     def distances(self, x):
+        covariance = self.covariance if self.covariance is not None \
+            else self.calculate_covariance(x)
         d = x - self.centers[:, np.newaxis]
-        covariance = self.covariance(x, self.centers)
-        left_multiplier = np.einsum('...ij,...jk', d, np.linalg.inv(covariance))
-        return np.sum(left_multiplier * d, axis=2)
+        left_multiplier = \
+            np.einsum('...ij,...jk', d, np.linalg.inv(covariance))
+        return np.sum(left_multiplier * d, axis=2).T
 
-    def covariance(self, u, v):
+    def calculate_covariance(self, x):
+        """Calculates the covariance of the data `u` with cluster centers `v`.
+
+        Parameters
+        ----------
+        x : :obj:`np.ndarray`
+            (n_samples, n_features)
+            The original data.
+
+        Returns
+        -------
+        :obj:`np.ndarray`
+            (n_clusters, n_features, n_features)
+            The covariance matrix of each cluster.
+
+        """
+        v = self.centers
+        if v is None:
+            return None
         q, p = v.shape
         if self.memberships is None:
+            # If no memberships have been calculated assume n-spherical clusters
             return (np.eye(p)[..., np.newaxis] * np.ones((p, q))).T
-        vector_difference = u - v[:, np.newaxis]
+        q, p = v.shape
+        vector_difference = x - v[:, np.newaxis]
         fuzzy_memberships = self.fuzzifier(self.memberships)
-        right_multiplier = np.einsum('...i,...j->...ij', vector_difference,
-                                     vector_difference)
+        right_multiplier = \
+            np.einsum('...i,...j->...ij', vector_difference, vector_difference)
         einstein_sum = \
-            np.einsum('...i,...ijk', fuzzy_memberships, right_multiplier) / \
-            np.sum(fuzzy_memberships, axis=1)[..., np.newaxis, np.newaxis]
-        return einstein_sum / np.power(np.linalg.det(einstein_sum), (1. / p))[
-            ..., np.newaxis, np.newaxis]
+            np.einsum('i...,...ijk', fuzzy_memberships, right_multiplier) / \
+            np.sum(fuzzy_memberships, axis=0)[..., np.newaxis, np.newaxis]
+        return np.nan_to_num(
+            einstein_sum / (np.linalg.det(einstein_sum) ** (1 / q))[
+                ..., np.newaxis, np.newaxis])
