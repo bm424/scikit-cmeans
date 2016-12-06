@@ -1,7 +1,7 @@
-pyfcm
-=====
+skcmeans
+========
 
 .. toctree::
    :maxdepth: 4
 
-   pyfcm
+   skcmeans

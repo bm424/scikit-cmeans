@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to pyfcm’s documentation! &#8212; pyfcm 1.0 documentation</title>
+    <title>Welcome to scikit-cmeans’s documentation! &#8212; scikit-cmeans 0.1b1 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -17,7 +17,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0',
+        VERSION:     '0.1b1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -31,8 +31,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="pyfcm 1.0 documentation" href="#" />
-    <link rel="next" title="pyfcm.algorithms Module" href="pyfcm.algorithms.html" />
+    <link rel="top" title="scikit-cmeans 0.1b1 documentation" href="#" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -51,8 +50,8 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="#">
-          pyfcm</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0</b></span>
+          scikit-cmeans</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -67,11 +66,7 @@
      href="#">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="pyfcm.algorithms.html"><code class="docutils literal"><span class="pre">pyfcm.algorithms</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyfcm.initialization.html"><code class="docutils literal"><span class="pre">pyfcm.initialization</span></code> Module</a></li>
-</ul>
-</ul>
+      aria-labelledby="dLabelGlobalToc"></ul>
 </li>
               
                 <li class="dropdown">
@@ -83,7 +78,10 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Welcome to pyfcm&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#">Welcome to scikit-cmeans&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#what-s-in-the-box">What&#8217;s in the Box</a></li>
+<li><a class="reference internal" href="#what-s-coming-up">What&#8217;s Coming Up</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 </ul>
@@ -93,10 +91,6 @@
             
               
                 
-  <li>
-    <a href="pyfcm.algorithms.html" title="Next Chapter: pyfcm.algorithms Module"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">pyfcm.algorit... &raquo;</span>
-    </a>
-  </li>
               
             
             
@@ -128,18 +122,44 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="welcome-to-pyfcm-s-documentation">
-<h1>Welcome to pyfcm&#8217;s documentation!<a class="headerlink" href="#welcome-to-pyfcm-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>PyFCM is a (currently rather small) package designed to facilitate
+  <div class="section" id="welcome-to-scikit-cmeans-s-documentation">
+<h1>Welcome to scikit-cmeans&#8217;s documentation!<a class="headerlink" href="#welcome-to-scikit-cmeans-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>scikit-cmeans is a (currently rather small) package designed to facilitate
 exploration of fuzzy clustering algorithms in a way that is both readily
 usable and easily extended. The API is loosely based on that of
 <a class="reference external" href="http://scikit-learn.org/">scikit-learn</a>.</p>
 <img alt="Example of a fuzzy cluster result" class="align-center" src="demo.png" />
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="pyfcm.algorithms.html"><code class="docutils literal"><span class="pre">pyfcm.algorithms</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyfcm.initialization.html"><code class="docutils literal"><span class="pre">pyfcm.initialization</span></code> Module</a></li>
+<p>Many packages already distribute versions of the C-means algorithm, but fuzzy
+clustering is a rich field. It is often desirable to explore different
+parameters or methods rapidly, or develop small tweaks to algorithms without
+having to rewrite the entire codebase. This project aims to make that as
+easy as possible, by providing a simple API promoting small, decoupled,
+connectable tools.</p>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Installation not yet thoroughly tested.</p>
+</div>
+</div>
+<div class="section" id="what-s-in-the-box">
+<h1>What&#8217;s in the Box<a class="headerlink" href="#what-s-in-the-box" title="Permalink to this headline">¶</a></h1>
+<p>Out-of-the-box, scikit-cmeans provides algorithms for hard clustering,
+probabilistic and possibilistic c-means clustering, and a plugin for the
+Gustafson-Kessel variant for ellipsoidal clusters. Any of the basic
+algorithms can be used with any distance metric available from scipy, or use
+a custom distance function. Data of any dimensionality is supported</p>
+</div>
+<div class="section" id="what-s-coming-up">
+<h1>What&#8217;s Coming Up<a class="headerlink" href="#what-s-coming-up" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Plotting tools</li>
+<li>A couple of new algorithms (for example, the Rousseeuw-Trauwaert-Kaufman</li>
 </ul>
+<p>variant)
+- More examples and demonstrations</p>
+<div class="toctree-wrapper compound">
 </div>
 </div>
 <div class="section" id="indices-and-tables">
