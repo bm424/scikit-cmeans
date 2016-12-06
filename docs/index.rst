@@ -25,14 +25,14 @@ connectable tools.
 
 
 Installation
-============
+------------
 
 .. note::
     Installation not yet thoroughly tested.
 
 
 What's in the Box
-=================
+-----------------
 
 Out-of-the-box, scikit-cmeans provides algorithms for hard clustering,
 probabilistic and possibilistic c-means clustering, and a plugin for the
@@ -42,11 +42,11 @@ a custom distance function. Data of any dimensionality is supported
 
 
 What's Coming Up
-================
+----------------
 
 - Plotting tools
 - A couple of new algorithms (for example, the Rousseeuw-Trauwaert-Kaufman
-    variant)
+  variant)
 - More examples and demonstrations
 
 
@@ -60,7 +60,7 @@ What's Coming Up
 
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`

@@ -23,6 +23,7 @@ sys.path.insert(0, os.path.abspath('../'))
 
 import sphinx_bootstrap_theme
 from skcmeans import __version__, __version_full__
+import skcmeans.algorithms, skcmeans.initialization
 
 # -- General configuration ------------------------------------------------
 
