@@ -46,15 +46,15 @@ What's Coming Up
 
 - Plotting tools
 - A couple of new algorithms (for example, the Rousseeuw-Trauwaert-Kaufman
-variant)
+    variant)
 - More examples and demonstrations
 
 
 
 .. toctree::
 
-   pyfcm.algorithms
-   pyfcm.initialization
+   algorithms
+   initialization
 
 
 
