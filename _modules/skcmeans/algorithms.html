@@ -67,7 +67,11 @@
      href="../../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"></ul>
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../skcmeans.algorithms.html"><code class="docutils literal"><span class="pre">skcmeans.algorithms</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../skcmeans.initialization.html"><code class="docutils literal"><span class="pre">skcmeans.initialization</span></code> Module</a></li>
+</ul>
+</ul>
 </li>
               
                 <li class="dropdown">
@@ -128,7 +132,7 @@
 <span class="kn">from</span> <span class="nn">.initialization</span> <span class="k">import</span> <span class="n">initialize_random</span><span class="p">,</span> <span class="n">initialize_probabilistic</span>
 
 
-<div class="viewcode-block" id="CMeans"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.CMeans">[docs]</a><span class="k">class</span> <span class="nc">CMeans</span><span class="p">:</span>
+<div class="viewcode-block" id="CMeans"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.CMeans">[docs]</a><span class="k">class</span> <span class="nc">CMeans</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Base class for C-means algorithms.</span>
 
 <span class="sd">    Parameters</span>
@@ -186,7 +190,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">memberships</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="CMeans.distances"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.CMeans.distances">[docs]</a>    <span class="k">def</span> <span class="nf">distances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="CMeans.distances"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.CMeans.distances">[docs]</a>    <span class="k">def</span> <span class="nf">distances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculates the distance between data x and the centers.</span>
 
 <span class="sd">        The distance, by default, is calculated according to `metric`, but this</span>
@@ -220,7 +224,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">&quot;`objective` should be implemented by subclasses.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CMeans.fit"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.CMeans.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="CMeans.fit"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.CMeans.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Optimizes cluster centers by restarting convergence several times.</span>
 
 <span class="sd">        Parameters</span>
@@ -248,7 +252,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="o">=</span> <span class="n">centers_best</span>
         <span class="k">return</span> <span class="n">j_list</span></div>
 
-<div class="viewcode-block" id="CMeans.converge"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.CMeans.converge">[docs]</a>    <span class="k">def</span> <span class="nf">converge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="CMeans.converge"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.CMeans.converge">[docs]</a>    <span class="k">def</span> <span class="nf">converge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Finds cluster centers through an alternating optimization routine.</span>
 
 <span class="sd">        Terminates when either the number of cycles reaches `max_iter` or the</span>
@@ -272,7 +276,7 @@
                 <span class="k">break</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">centers</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CMeans.update"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.CMeans.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="CMeans.update"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.CMeans.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Updates cluster memberships and centers in a single cycle.</span>
 
 <span class="sd">        If the cluster centers have not already been initialized, they are</span>
@@ -301,7 +305,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">initialization</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span></div></div>
 
 
-<div class="viewcode-block" id="Hard"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Hard">[docs]</a><span class="k">class</span> <span class="nc">Hard</span><span class="p">(</span><span class="n">CMeans</span><span class="p">):</span>
+<div class="viewcode-block" id="Hard"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Hard">[docs]</a><span class="k">class</span> <span class="nc">Hard</span><span class="p">(</span><span class="n">CMeans</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Hard C-means, equivalent to K-means clustering.</span>
 
 <span class="sd">    Methods</span>
@@ -316,23 +320,23 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Hard.calculate_memberships"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Hard.calculate_memberships">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_memberships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="Hard.calculate_memberships"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Hard.calculate_memberships">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_memberships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">distances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">distances</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span>
             <span class="n">distances</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span></div>
 
-<div class="viewcode-block" id="Hard.calculate_centers"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Hard.calculate_centers">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_centers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="Hard.calculate_centers"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Hard.calculate_centers">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_centers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> \
                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Hard.objective"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Hard.objective">[docs]</a>    <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="Hard.objective"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Hard.objective">[docs]</a>    <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">memberships</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span>
         <span class="n">distances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span> <span class="o">*</span> <span class="n">distances</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Fuzzy"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Fuzzy">[docs]</a><span class="k">class</span> <span class="nc">Fuzzy</span><span class="p">(</span><span class="n">CMeans</span><span class="p">):</span>
+<div class="viewcode-block" id="Fuzzy"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Fuzzy">[docs]</a><span class="k">class</span> <span class="nc">Fuzzy</span><span class="p">(</span><span class="n">CMeans</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for fuzzy C-means clusters.</span>
 
 <span class="sd">    Attributes</span>
@@ -353,17 +357,17 @@
 
     <span class="n">m</span> <span class="o">=</span> <span class="mi">2</span>
 
-<div class="viewcode-block" id="Fuzzy.fuzzifier"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Fuzzy.fuzzifier">[docs]</a>    <span class="k">def</span> <span class="nf">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memberships</span><span class="p">):</span>
+<div class="viewcode-block" id="Fuzzy.fuzzifier"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Fuzzy.fuzzifier">[docs]</a>    <span class="k">def</span> <span class="nf">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memberships</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">memberships</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Fuzzy.objective"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Fuzzy.objective">[docs]</a>    <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="Fuzzy.objective"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Fuzzy.objective">[docs]</a>    <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">memberships</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">centers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">infty</span>
         <span class="n">distances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">)</span> <span class="o">*</span> <span class="n">distances</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Probabilistic"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Probabilistic">[docs]</a><span class="k">class</span> <span class="nc">Probabilistic</span><span class="p">(</span><span class="n">Fuzzy</span><span class="p">):</span>
+<div class="viewcode-block" id="Probabilistic"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Probabilistic">[docs]</a><span class="k">class</span> <span class="nc">Probabilistic</span><span class="p">(</span><span class="n">Fuzzy</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Probabilistic C-means.</span>
 
 <span class="sd">    In the probabilistic algorithm, sample points have total membership of</span>
@@ -387,19 +391,19 @@
 <span class="sd">        .. math:: c_i = \left. \sum_k u_{ik}^m x_k \middle/ \sum_k u_{ik} \\right.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Probabilistic.calculate_memberships"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Probabilistic.calculate_memberships">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_memberships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="Probabilistic.calculate_memberships"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Probabilistic.calculate_memberships">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_memberships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">distances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">distances</span><span class="p">[</span><span class="n">distances</span> <span class="o">==</span> <span class="mf">0.</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">18</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">distances</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">distances</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]),</span>
             <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mi">1</span></div>
 
-<div class="viewcode-block" id="Probabilistic.calculate_centers"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Probabilistic.calculate_centers">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_centers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="Probabilistic.calculate_centers"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Probabilistic.calculate_centers">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_centers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> \
                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span></div></div>
 
 
-<div class="viewcode-block" id="Possibilistic"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Possibilistic">[docs]</a><span class="k">class</span> <span class="nc">Possibilistic</span><span class="p">(</span><span class="n">Fuzzy</span><span class="p">):</span>
+<div class="viewcode-block" id="Possibilistic"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Possibilistic">[docs]</a><span class="k">class</span> <span class="nc">Possibilistic</span><span class="p">(</span><span class="n">Fuzzy</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Possibilistic C-means.</span>
 
 <span class="sd">    In the possibilistic algorithm, sample points are assigned memberships</span>
@@ -441,18 +445,18 @@
                                                     <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span></div>
 
-<div class="viewcode-block" id="Possibilistic.calculate_memberships"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Possibilistic.calculate_memberships">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_memberships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="Possibilistic.calculate_memberships"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Possibilistic.calculate_memberships">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_memberships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">distances</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="p">(</span><span class="n">distances</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span>
             <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">**</span> <span class="o">-</span><span class="mf">1.</span></div>
 
-<div class="viewcode-block" id="Possibilistic.calculate_centers"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.Possibilistic.calculate_centers">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_centers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="Possibilistic.calculate_centers"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.Possibilistic.calculate_centers">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_centers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span>
                          <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fuzzifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memberships</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span>
                              <span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span></div></div>
 
 
-<div class="viewcode-block" id="GustafsonKesselMixin"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.GustafsonKesselMixin">[docs]</a><span class="k">class</span> <span class="nc">GustafsonKesselMixin</span><span class="p">(</span><span class="n">Fuzzy</span><span class="p">):</span>
+<div class="viewcode-block" id="GustafsonKesselMixin"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.GustafsonKesselMixin">[docs]</a><span class="k">class</span> <span class="nc">GustafsonKesselMixin</span><span class="p">(</span><span class="n">Fuzzy</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Gives clusters ellipsoidal character.</span>
 
 <span class="sd">    The Gustafson-Kessel algorithm redefines the distance measurement such that</span>
@@ -471,7 +475,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">covariance</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="GustafsonKesselMixin.fit"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.GustafsonKesselMixin.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="GustafsonKesselMixin.fit"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.GustafsonKesselMixin.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Optimizes cluster centers by restarting convergence several times.</span>
 
 <span class="sd">        Extends the default behaviour by recalculating the covariance matrix</span>
@@ -488,7 +492,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">covariance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_covariance</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">j_list</span></div>
 
-<div class="viewcode-block" id="GustafsonKesselMixin.update"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.GustafsonKesselMixin.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="GustafsonKesselMixin.update"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.GustafsonKesselMixin.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Single update of the cluster algorithm.</span>
 
 <span class="sd">        Extends the default behaviour by including a covariance calculation</span>
@@ -514,7 +518,7 @@
             <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;...ij,...jk&#39;</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">covariance</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">left_multiplier</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">T</span></div>
 
-<div class="viewcode-block" id="GustafsonKesselMixin.calculate_covariance"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.GustafsonKesselMixin.calculate_covariance">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="GustafsonKesselMixin.calculate_covariance"><a class="viewcode-back" href="../../skcmeans.algorithms.html#skcmeans.algorithms.GustafsonKesselMixin.calculate_covariance">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculates the covariance of the data `u` with cluster centers `v`.</span>
 
 <span class="sd">        Parameters</span>

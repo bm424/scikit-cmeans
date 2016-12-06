@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>skcmeans package &#8212; scikit-cmeans 0.1b1 documentation</title>
+    <title>skcmeans.algorithms Module &#8212; scikit-cmeans 0.1b1 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -32,6 +32,8 @@
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="scikit-cmeans 0.1b1 documentation" href="index.html" />
+    <link rel="next" title="skcmeans.initialization Module" href="skcmeans.initialization.html" />
+    <link rel="prev" title="Welcome to scikit-cmeans’s documentation!" href="index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -66,8 +68,8 @@
      href="index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="skcmeans.algorithms.html"><code class="docutils literal"><span class="pre">skcmeans.algorithms</span></code> Module</a></li>
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">skcmeans.algorithms</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="skcmeans.initialization.html"><code class="docutils literal"><span class="pre">skcmeans.initialization</span></code> Module</a></li>
 </ul>
 </ul>
@@ -82,13 +84,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">skcmeans package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-skcmeans.algorithms">skcmeans.algorithms module</a></li>
-<li><a class="reference internal" href="#module-skcmeans.initialization">skcmeans.initialization module</a></li>
-<li><a class="reference internal" href="#module-skcmeans">Module contents</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">skcmeans.algorithms</span></code> Module</a></li>
 </ul>
 </ul>
 </li>
@@ -97,6 +93,14 @@
             
               
                 
+  <li>
+    <a href="index.html" title="Previous Chapter: Welcome to scikit-cmeans’s documentation!"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Welcome to sc...</span>
+    </a>
+  </li>
+  <li>
+    <a href="skcmeans.initialization.html" title="Next Chapter: skcmeans.initialization Module"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">skcmeans.init... &raquo;</span>
+    </a>
+  </li>
               
             
             
@@ -104,7 +108,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="_sources/skcmeans.txt"
+  <a href="_sources/skcmeans.algorithms.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -128,13 +132,8 @@
   <div class="row">
     <div class="col-md-12 content">
       
-  <div class="section" id="skcmeans-package">
-<h1>skcmeans package<a class="headerlink" href="#skcmeans-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-skcmeans.algorithms">
-<span id="skcmeans-algorithms-module"></span><h2>skcmeans.algorithms module<a class="headerlink" href="#module-skcmeans.algorithms" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="module-skcmeans.algorithms">
+<span id="skcmeans-algorithms-module"></span><h1><code class="docutils literal"><span class="pre">skcmeans.algorithms</span></code> Module<a class="headerlink" href="#module-skcmeans.algorithms" title="Permalink to this headline">¶</a></h1>
 <p>Implementations of a number of C-means algorithms.</p>
 <p class="rubric">References</p>
 <table class="docutils footnote" frame="void" id="id1" rules="none">
@@ -148,8 +147,7 @@ Publishers, 2005.</td></tr>
 <dl class="class">
 <dt id="skcmeans.algorithms.CMeans">
 <em class="property">class </em><code class="descclassname">skcmeans.algorithms.</code><code class="descname">CMeans</code><span class="sig-paren">(</span><em>n_clusters=2</em>, <em>n_init=10</em>, <em>max_iter=300</em>, <em>tol=0.0001</em>, <em>verbosity=0</em>, <em>random_state=None</em>, <em>eps=1e-18</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#CMeans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.CMeans" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Base class for C-means algorithms.</p>
+<dd><p>Base class for C-means algorithms.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -201,16 +199,6 @@ The derived or supplied cluster centers.</p>
 <dd><p><code class="xref py py-obj docutils literal"><span class="pre">np.ndarray</span></code> &#8211; (n_samples, n_clusters)
 The derived or supplied cluster memberships.</p>
 </dd></dl>
-
-<dl class="method">
-<dt id="skcmeans.algorithms.CMeans.calculate_centers">
-<code class="descname">calculate_centers</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#CMeans.calculate_centers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.CMeans.calculate_centers" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="skcmeans.algorithms.CMeans.calculate_memberships">
-<code class="descname">calculate_memberships</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#CMeans.calculate_memberships"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.CMeans.calculate_memberships" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="method">
 <dt id="skcmeans.algorithms.CMeans.converge">
@@ -296,21 +284,6 @@ A length-k subset of the original data.</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="skcmeans.algorithms.CMeans.initialize">
-<code class="descname">initialize</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#CMeans.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.CMeans.initialize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">metric</code><em class="property"> = 'euclidean'</em></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="skcmeans.algorithms.CMeans.objective">
-<code class="descname">objective</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#CMeans.objective"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.CMeans.objective" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="skcmeans.algorithms.CMeans.update">
 <code class="descname">update</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#CMeans.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.CMeans.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates cluster memberships and centers in a single cycle.</p>
@@ -332,8 +305,7 @@ The original data.</td>
 <dl class="class">
 <dt id="skcmeans.algorithms.Fuzzy">
 <em class="property">class </em><code class="descclassname">skcmeans.algorithms.</code><code class="descname">Fuzzy</code><span class="sig-paren">(</span><em>n_clusters=2</em>, <em>n_init=10</em>, <em>max_iter=300</em>, <em>tol=0.0001</em>, <em>verbosity=0</em>, <em>random_state=None</em>, <em>eps=1e-18</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Fuzzy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.Fuzzy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="skcmeans.algorithms.html#skcmeans.algorithms.CMeans" title="skcmeans.algorithms.CMeans"><code class="xref py py-class docutils literal"><span class="pre">skcmeans.algorithms.CMeans</span></code></a></p>
-<p>Base class for fuzzy C-means clusters.</p>
+<dd><p>Base class for fuzzy C-means clusters.</p>
 <dl class="attribute">
 <dt id="skcmeans.algorithms.Fuzzy.m">
 <code class="descname">m</code><a class="headerlink" href="#skcmeans.algorithms.Fuzzy.m" title="Permalink to this definition">¶</a></dt>
@@ -354,28 +326,12 @@ full membership to zero membership.</p>
 cluster centers. To be minimised.</p>
 </dd></dl>
 
-<dl class="method">
-<dt>
-<code class="descname">fuzzifier</code><span class="sig-paren">(</span><em>memberships</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Fuzzy.fuzzifier"><span class="viewcode-link">[source]</span></a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">m</code><em class="property"> = 2</em></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">objective</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Fuzzy.objective"><span class="viewcode-link">[source]</span></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="skcmeans.algorithms.GustafsonKesselMixin">
 <em class="property">class </em><code class="descclassname">skcmeans.algorithms.</code><code class="descname">GustafsonKesselMixin</code><span class="sig-paren">(</span><em>n_clusters=2</em>, <em>n_init=10</em>, <em>max_iter=300</em>, <em>tol=0.0001</em>, <em>verbosity=0</em>, <em>random_state=None</em>, <em>eps=1e-18</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#GustafsonKesselMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.GustafsonKesselMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="skcmeans.algorithms.html#skcmeans.algorithms.Fuzzy" title="skcmeans.algorithms.Fuzzy"><code class="xref py py-class docutils literal"><span class="pre">skcmeans.algorithms.Fuzzy</span></code></a></p>
-<p>Gives clusters ellipsoidal character.</p>
+<dd><p>Gives clusters ellipsoidal character.</p>
 <p>The Gustafson-Kessel algorithm redefines the distance measurement such that
 clusters may adopt ellipsoidal shapes. This is achieved through updates to
 a covariance matrix assigned to each cluster center.</p>
@@ -406,16 +362,6 @@ The covariance matrix of each cluster.</td>
 </tbody>
 </table>
 </dd></dl>
-
-<dl class="attribute">
-<dt id="skcmeans.algorithms.GustafsonKesselMixin.covariance">
-<code class="descname">covariance</code><em class="property"> = None</em><a class="headerlink" href="#skcmeans.algorithms.GustafsonKesselMixin.covariance" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="skcmeans.algorithms.GustafsonKesselMixin.distances">
-<code class="descname">distances</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#GustafsonKesselMixin.distances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.GustafsonKesselMixin.distances" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="method">
 <dt id="skcmeans.algorithms.GustafsonKesselMixin.fit">
@@ -456,8 +402,7 @@ The original data.</td>
 <dl class="class">
 <dt id="skcmeans.algorithms.Hard">
 <em class="property">class </em><code class="descclassname">skcmeans.algorithms.</code><code class="descname">Hard</code><span class="sig-paren">(</span><em>n_clusters=2</em>, <em>n_init=10</em>, <em>max_iter=300</em>, <em>tol=0.0001</em>, <em>verbosity=0</em>, <em>random_state=None</em>, <em>eps=1e-18</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Hard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.Hard" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="skcmeans.algorithms.html#skcmeans.algorithms.CMeans" title="skcmeans.algorithms.CMeans"><code class="xref py py-class docutils literal"><span class="pre">skcmeans.algorithms.CMeans</span></code></a></p>
-<p>Hard C-means, equivalent to K-means clustering.</p>
+<dd><p>Hard C-means, equivalent to K-means clustering.</p>
 <dl class="method">
 <dt id="skcmeans.algorithms.Hard.calculate_memberships">
 <code class="descname">calculate_memberships</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Hard.calculate_memberships"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.Hard.calculate_memberships" title="Permalink to this definition">¶</a></dt>
@@ -477,28 +422,12 @@ The original data.</td>
 centers. To be minimised.</p>
 </dd></dl>
 
-<dl class="method">
-<dt>
-<code class="descname">calculate_centers</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Hard.calculate_centers"><span class="viewcode-link">[source]</span></a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">calculate_memberships</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Hard.calculate_memberships"><span class="viewcode-link">[source]</span></a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">objective</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Hard.objective"><span class="viewcode-link">[source]</span></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="skcmeans.algorithms.Possibilistic">
 <em class="property">class </em><code class="descclassname">skcmeans.algorithms.</code><code class="descname">Possibilistic</code><span class="sig-paren">(</span><em>n_clusters=2</em>, <em>n_init=10</em>, <em>max_iter=300</em>, <em>tol=0.0001</em>, <em>verbosity=0</em>, <em>random_state=None</em>, <em>eps=1e-18</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Possibilistic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.Possibilistic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="skcmeans.algorithms.html#skcmeans.algorithms.Fuzzy" title="skcmeans.algorithms.Fuzzy"><code class="xref py py-class docutils literal"><span class="pre">skcmeans.algorithms.Fuzzy</span></code></a></p>
-<p>Possibilistic C-means.</p>
+<dd><p>Possibilistic C-means.</p>
 <p>In the possibilistic algorithm, sample points are assigned memberships
 according to their relative proximity to the centers. This is controlled
 through a weighting to the cluster centers, approximately the variance of
@@ -522,16 +451,6 @@ weighted by the fuzzified memberships.</p>
 <div class="math">
 \[c_i = \left. \sum_k u_{ik}^m x_k \middle/ \sum_k u_{ik} \right.\]</div>
 </dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">calculate_centers</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Possibilistic.calculate_centers"><span class="viewcode-link">[source]</span></a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">calculate_memberships</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Possibilistic.calculate_memberships"><span class="viewcode-link">[source]</span></a></dt>
-<dd></dd></dl>
 
 <dl class="staticmethod">
 <dt id="skcmeans.algorithms.Possibilistic.initialization">
@@ -562,18 +481,12 @@ Cluster centers</li>
 </table>
 </dd></dl>
 
-<dl class="method">
-<dt id="skcmeans.algorithms.Possibilistic.weights">
-<code class="descname">weights</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Possibilistic.weights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.Possibilistic.weights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="skcmeans.algorithms.Probabilistic">
 <em class="property">class </em><code class="descclassname">skcmeans.algorithms.</code><code class="descname">Probabilistic</code><span class="sig-paren">(</span><em>n_clusters=2</em>, <em>n_init=10</em>, <em>max_iter=300</em>, <em>tol=0.0001</em>, <em>verbosity=0</em>, <em>random_state=None</em>, <em>eps=1e-18</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Probabilistic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.algorithms.Probabilistic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="skcmeans.algorithms.html#skcmeans.algorithms.Fuzzy" title="skcmeans.algorithms.Fuzzy"><code class="xref py py-class docutils literal"><span class="pre">skcmeans.algorithms.Fuzzy</span></code></a></p>
-<p>Probabilistic C-means.</p>
+<dd><p>Probabilistic C-means.</p>
 <p>In the probabilistic algorithm, sample points have total membership of
 unity, distributed equally among each of the centers. This tends to push
 cluster centers away from each other.</p>
@@ -595,82 +508,8 @@ weighted by the fuzzified memberships.</p>
 \[c_i = \left. \sum_k u_{ik}^m x_k \middle/ \sum_k u_{ik} \right.\]</div>
 </dd></dl>
 
-<dl class="method">
-<dt>
-<code class="descname">calculate_centers</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Probabilistic.calculate_centers"><span class="viewcode-link">[source]</span></a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">calculate_memberships</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/algorithms.html#Probabilistic.calculate_memberships"><span class="viewcode-link">[source]</span></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
-</div>
-<div class="section" id="module-skcmeans.initialization">
-<span id="skcmeans-initialization-module"></span><h2>skcmeans.initialization module<a class="headerlink" href="#module-skcmeans.initialization" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="skcmeans.initialization.initialize_probabilistic">
-<code class="descclassname">skcmeans.initialization.</code><code class="descname">initialize_probabilistic</code><span class="sig-paren">(</span><em>x</em>, <em>k</em>, <em>random_state=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/initialization.html#initialize_probabilistic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.initialization.initialize_probabilistic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Selects initial points using a probabilistic clustering approximation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>) &#8211; (n_samples, n_features)
-The original data.</li>
-<li><strong>k</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The number of points to select.</li>
-<li><strong>random_state</strong> (int or <code class="xref py py-obj docutils literal"><span class="pre">np.random.RandomState</span></code>, optional) &#8211; The generator used for initialization. Using an integer fixes the seed.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code> &#8211; (n_samples, k)
-Cluster memberships</li>
-<li><code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code> &#8211; (k, n_features)
-Cluster centers</li>
-</ul>
-</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="skcmeans.initialization.initialize_random">
-<code class="descclassname">skcmeans.initialization.</code><code class="descname">initialize_random</code><span class="sig-paren">(</span><em>x</em>, <em>k</em>, <em>random_state=None</em>, <em>eps=1e-12</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skcmeans/initialization.html#initialize_random"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcmeans.initialization.initialize_random" title="Permalink to this definition">¶</a></dt>
-<dd><p>Selects initial points randomly from the data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>) &#8211; (n_samples, n_features)
-The original data.</li>
-<li><strong>k</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The number of points to select.</li>
-<li><strong>random_state</strong> (int or <code class="xref py py-class docutils literal"><span class="pre">np.random.RandomState</span></code>, optional) &#8211; The generator used for initialization. Using an integer fixes the seed.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><em>Unitialized memberships</em></li>
-<li><strong>selection</strong> (<code class="xref py py-class docutils literal"><span class="pre">np.ndarray</span></code>) &#8211; (k, n_features)
-A length-k subset of the original data.</li>
-</ul>
-</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-<div class="section" id="module-skcmeans">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-skcmeans" title="Permalink to this headline">¶</a></h2>
-</div>
 </div>
 
 

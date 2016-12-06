@@ -67,7 +67,11 @@
      href="../../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"></ul>
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../skcmeans.algorithms.html"><code class="docutils literal"><span class="pre">skcmeans.algorithms</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../skcmeans.initialization.html"><code class="docutils literal"><span class="pre">skcmeans.initialization</span></code> Module</a></li>
+</ul>
+</ul>
 </li>
               
                 <li class="dropdown">
@@ -121,7 +125,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">algorithms</span>
 
 
-<div class="viewcode-block" id="initialize_random"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.initialize_random">[docs]</a><span class="k">def</span> <span class="nf">initialize_random</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">12</span><span class="p">):</span>
+<div class="viewcode-block" id="initialize_random"><a class="viewcode-back" href="../../skcmeans.initialization.html#skcmeans.algorithms.initialize_random">[docs]</a><span class="k">def</span> <span class="nf">initialize_random</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">12</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Selects initial points randomly from the data.</span>
 
 <span class="sd">    Parameters</span>
@@ -150,7 +154,7 @@
     <span class="k">return</span> <span class="mi">1</span><span class="o">-</span><span class="n">normalized_distance</span><span class="p">,</span> <span class="n">selection</span></div>
 
 
-<div class="viewcode-block" id="initialize_probabilistic"><a class="viewcode-back" href="../../skcmeans.html#skcmeans.algorithms.initialize_probabilistic">[docs]</a><span class="k">def</span> <span class="nf">initialize_probabilistic</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="initialize_probabilistic"><a class="viewcode-back" href="../../skcmeans.initialization.html#skcmeans.algorithms.initialize_probabilistic">[docs]</a><span class="k">def</span> <span class="nf">initialize_probabilistic</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Selects initial points using a probabilistic clustering approximation.</span>
 
 <span class="sd">    Parameters</span>
