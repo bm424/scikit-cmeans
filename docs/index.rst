@@ -17,18 +17,44 @@ usable and easily extended. The API is loosely based on that of
 
 
 Many packages already distribute versions of the C-means algorithm, but fuzzy
-clustering is a rich field. It is often desirable to explore different
-parameters or methods rapidly, or develop small tweaks to algorithms without
-having to rewrite the entire codebase. This project aims to make that as
-easy as possible, by providing a simple API promoting small, decoupled,
-connectable tools.
+clustering is a rich field. It is often necessary or desirable to explore
+different parameters or methods rapidly, or develop small tweaks to
+algorithms without having to rewrite the entire codebase. This project aims
+to make that as easy as possible, by providing a simple API promoting
+small, decoupled, connectable tools.
+
+
+Contents
+--------
+
+.. toctree::
+   :maxdepth: 2
+
+   examples
+   skcmeans.algorithms
+   skcmeans.initialization
 
 
 Installation
 ------------
 
-.. note::
-    Installation not yet thoroughly tested.
+Installing from GitHub
+......................
+
+To install the latest version of scikit-cmeans, you can use ``pip`` to install
+from the main GitHub repository.
+
+You must ensure that you have ``pip`` installed. See
+`here <https://docs.python.org/3/installing/>`_ for more information.
+
+.. code-block:: bash
+
+    pip install git+git://github.com/bm424/scikit-cmeans.git@master
+
+
+.. warning::
+
+    Installation has not yet thoroughly tested.
 
 
 What's in the Box
@@ -48,15 +74,7 @@ What's Coming Up
 - A couple of new algorithms (for example, the Rousseeuw-Trauwaert-Kaufman
   variant)
 - More examples and demonstrations
-
-
-
-.. toctree::
-
-   skcmeans.algorithms
-   skcmeans.initialization
-
-
+- New initialization methods and improvements on those existing
 
 
 Indices and tables
