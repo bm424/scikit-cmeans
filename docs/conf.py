@@ -248,7 +248,7 @@ html_static_path = ['_static']
 # html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'pyfcmdoc'
+htmlhelp_basename = 'skcmeansdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
