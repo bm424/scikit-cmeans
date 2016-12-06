@@ -53,8 +53,8 @@ What's Coming Up
 
 .. toctree::
 
-   algorithms
-   initialization
+   skcmeans.algorithms
+   skcmeans.initialization
 
 
 
