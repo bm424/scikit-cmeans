@@ -32,7 +32,7 @@
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="scikit-cmeans 0.1b1 documentation" href="#" />
-    <link rel="next" title="skcmeans.algorithms Module" href="skcmeans.algorithms.html" />
+    <link rel="next" title="Examples" href="examples.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -68,6 +68,7 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="skcmeans.algorithms.html"><code class="docutils literal"><span class="pre">skcmeans.algorithms</span></code> Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="skcmeans.initialization.html"><code class="docutils literal"><span class="pre">skcmeans.initialization</span></code> Module</a></li>
 </ul>
@@ -84,7 +85,11 @@
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Welcome to scikit-cmeans&#8217;s documentation!</a><ul>
-<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#contents">Contents</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#installing-from-github">Installing from GitHub</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#what-s-in-the-box">What&#8217;s in the Box</a></li>
 <li><a class="reference internal" href="#what-s-coming-up">What&#8217;s Coming Up</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
@@ -99,7 +104,7 @@
               
                 
   <li>
-    <a href="skcmeans.algorithms.html" title="Next Chapter: skcmeans.algorithms Module"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">skcmeans.algo... &raquo;</span>
+    <a href="examples.html" title="Next Chapter: Examples"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Examples &raquo;</span>
     </a>
   </li>
               
@@ -141,16 +146,41 @@ usable and easily extended. The API is loosely based on that of
 <a class="reference external" href="http://scikit-learn.org/">scikit-learn</a>.</p>
 <img alt="Example of a fuzzy cluster result" class="align-center" src="_images/demo.png" />
 <p>Many packages already distribute versions of the C-means algorithm, but fuzzy
-clustering is a rich field. It is often desirable to explore different
-parameters or methods rapidly, or develop small tweaks to algorithms without
-having to rewrite the entire codebase. This project aims to make that as
-easy as possible, by providing a simple API promoting small, decoupled,
-connectable tools.</p>
+clustering is a rich field. It is often necessary or desirable to explore
+different parameters or methods rapidly, or develop small tweaks to
+algorithms without having to rewrite the entire codebase. This project aims
+to make that as easy as possible, by providing a simple API promoting
+small, decoupled, connectable tools.</p>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#probabilistic-fcm">Probabilistic FCM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#changing-the-distance-metric">Changing the distance metric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#irregular-clusters">Irregular Clusters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="skcmeans.algorithms.html"><code class="docutils literal"><span class="pre">skcmeans.algorithms</span></code> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skcmeans.initialization.html"><code class="docutils literal"><span class="pre">skcmeans.initialization</span></code> Module</a></li>
+</ul>
+</div>
+</div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Installation not yet thoroughly tested.</p>
+<div class="section" id="installing-from-github">
+<h3>Installing from GitHub<a class="headerlink" href="#installing-from-github" title="Permalink to this headline">¶</a></h3>
+<p>To install the latest version of scikit-cmeans, you can use <code class="docutils literal"><span class="pre">pip</span></code> to install
+from the main GitHub repository.</p>
+<p>You must ensure that you have <code class="docutils literal"><span class="pre">pip</span></code> installed. See
+<a class="reference external" href="https://docs.python.org/3/installing/">here</a> for more information.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install git+git://github.com/bm424/scikit-cmeans.git@master
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Installation has not yet thoroughly tested.</p>
+</div>
 </div>
 </div>
 <div class="section" id="what-s-in-the-box">
@@ -168,13 +198,8 @@ a custom distance function. Data of any dimensionality is supported</p>
 <li>A couple of new algorithms (for example, the Rousseeuw-Trauwaert-Kaufman
 variant)</li>
 <li>More examples and demonstrations</li>
+<li>New initialization methods and improvements on those existing</li>
 </ul>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="skcmeans.algorithms.html"><code class="docutils literal"><span class="pre">skcmeans.algorithms</span></code> Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="skcmeans.initialization.html"><code class="docutils literal"><span class="pre">skcmeans.initialization</span></code> Module</a></li>
-</ul>
-</div>
 </div>
 <div class="section" id="indices-and-tables">
 <h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
