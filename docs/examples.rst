@@ -92,7 +92,7 @@ algorithms.
 Input
 .....
 
-.. code-block::
+.. code-block:: python
     :emphasize-lines: 5,6,12
 
     import numpy as np
