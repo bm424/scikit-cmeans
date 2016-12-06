@@ -3,7 +3,7 @@ import numpy as np
 
 from sklearn.utils import check_random_state
 
-from pyfcm import algorithms
+from . import algorithms
 
 
 def initialize_random(x, k, random_state=None, eps=1e-12):

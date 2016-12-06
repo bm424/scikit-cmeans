@@ -5,8 +5,8 @@ from nose_parameterized import parameterized
 import numpy as np
 from sklearn.datasets import make_blobs
 
-from pyfcm.algorithms import Possibilistic
-from pyfcm.initialization import initialize_random
+from skcmeans.algorithms import Possibilistic
+from skcmeans.initialization import initialize_random
 
 
 class TestPossibilistic(TestCase):

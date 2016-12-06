@@ -2,10 +2,10 @@ from unittest import TestCase, mock
 
 import numpy as np
 
-from pyfcm.initialization import initialize_random
+from skcmeans.initialization import initialize_random
 
 
-@mock.patch('pyfcm.initialization.check_random_state')
+@mock.patch('scikit-cmeans.initialization.check_random_state')
 class TestInitializeRandom(TestCase):
 
     def setUp(self):

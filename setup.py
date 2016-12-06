@@ -1,17 +1,17 @@
 from setuptools import setup, find_packages
 
-from pyfcm import __version__
+from skcmeans import __version__
 
 setup(
-    name='pyfcm',
+    name='scikit-cmeans',
     version=__version__,
     description="Flexible, extensible fuzzy c-means clustering in python.",
-    url="https://bm424.github.io/pyfcm/",
+    url="https://bm424.github.io/scikit-cmeans/",
     author="Ben Martineau",
     author_email="bm424@cam.ac.uk",
     license="MIT",
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',

@@ -11,8 +11,8 @@ from nose_parameterized import parameterized
 import numpy as np
 from sklearn.datasets import make_blobs
 
-from pyfcm.algorithms import Probabilistic, Possibilistic, GustafsonKesselMixin
-from pyfcm.initialization import initialize_random
+from skcmeans.algorithms import Probabilistic, Possibilistic, GustafsonKesselMixin
+from skcmeans.initialization import initialize_random
 
 class ProbGK(Probabilistic, GustafsonKesselMixin):
     pass
