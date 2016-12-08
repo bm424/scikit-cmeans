@@ -238,6 +238,11 @@ class Fuzzy(CMeans):
 
     m = 2
 
+    def __init__(self, *args, **kwargs):
+        super(Fuzzy, self).__init__(*args, **kwargs)
+        if 'm' in kwargs:
+            self.m = kwargs['m']
+
     def fuzzifier(self, memberships):
         return np.power(memberships, self.m)
 
