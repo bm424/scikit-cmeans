@@ -204,7 +204,7 @@ class Hard(CMeans):
     def calculate_memberships(self, x):
         distances = self.distances(x)
         return (np.arange(distances.shape[1])[:, np.newaxis] == np.argmin(
-            distances, axis=1)).T
+            distances, axis=1)).T.astype("float")
 
     def calculate_centers(self, x):
         return np.dot(self.memberships.T, x) / \
