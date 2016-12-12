@@ -70,6 +70,8 @@ class CMeans:
         self.params = kwargs
         self.centers = None
         self.memberships = None
+        if 'metric' in kwargs:
+            self.metric = kwargs['metric']
 
     def distances(self, x):
         """Calculates the distance between data x and the centers.
