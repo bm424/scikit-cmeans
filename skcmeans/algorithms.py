@@ -10,34 +10,12 @@ References
 import numpy as np
 from scipy.spatial.distance import cdist
 
+from skcmeans import plot
 from .initialization import initialize_random, initialize_probabilistic
 
 
 class CMeans:
     """Base class for C-means algorithms.
-
-    Parameters
-    ----------
-    n_clusters : int, optional
-        The number of clusters to find.
-    n_init : int, optional
-        The number of times to attempt convergence with new initial centroids.
-    max_iter : int, optional
-        The number of cycles of the alternating optimization routine to run for
-        *each* convergence.
-    tol : float, optional
-        The stopping condition. Convergence is considered to have been reached
-        when the objective function changes less than `tol`.
-    verbosity : int, optional
-        The verbosity of the instance. May be 0, 1, or 2.
-
-        .. note:: Very much not yet implemented.
-
-    random_state : :obj:`int` or :obj:`np.random.RandomState`, optional
-        The generator used for initialization. Using an integer fixes the seed.
-    eps : float, optional
-        To avoid numerical errors, zeros are sometimes replaced with a very
-        small number, specified here.
 
     Attributes
     ----------
@@ -60,6 +38,30 @@ class CMeans:
 
     def __init__(self, n_clusters=2, n_init=10, max_iter=300, tol=1e-4,
                  verbosity=0, random_state=None, eps=1e-18, **kwargs):
+        """
+        Parameters
+        ----------
+        n_clusters : int, optional
+            The number of clusters to find.
+        n_init : int, optional
+            The number of times to attempt convergence with new initial centroids.
+        max_iter : int, optional
+            The number of cycles of the alternating optimization routine to run for
+            *each* convergence.
+        tol : float, optional
+            The stopping condition. Convergence is considered to have been reached
+            when the objective function changes less than `tol`.
+        verbosity : int, optional
+            The verbosity of the instance. May be 0, 1, or 2.
+
+            .. note:: Very much not yet implemented.
+
+        random_state : :obj:`int` or :obj:`np.random.RandomState`, optional
+            The generator used for initialization. Using an integer fixes the seed.
+        eps : float, optional
+            To avoid numerical errors, zeros are sometimes replaced with a very
+            small number, specified here.
+        """
         self.n_clusters = n_clusters
         self.n_init = n_init
         self.max_iter = max_iter
@@ -186,6 +188,9 @@ class CMeans:
         elif self.centers is None:
             self.centers = \
                 self.initialization(x, self.n_clusters, self.random_state)[1]
+
+    def plot(self, x, *args, **kwargs):
+        plot.contour(x, self, *args, **kwargs)
 
 
 class Hard(CMeans):
