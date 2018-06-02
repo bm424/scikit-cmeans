@@ -6,6 +6,7 @@ from sklearn.utils import check_random_state
 from . import algorithms
 
 
+
 def initialize_random(x, k, random_state=None, eps=1e-12):
     """Selects initial points randomly from the data.
 
@@ -21,7 +22,7 @@ def initialize_random(x, k, random_state=None, eps=1e-12):
 
     Returns
     -------
-    Unitialized memberships
+    Unitialized memberships_
     selection : :class:`np.ndarray`
         (k, n_features)
         A length-k subset of the original data.
@@ -52,13 +53,13 @@ def initialize_probabilistic(x, k, random_state=None):
     -------
     :class:`np.ndarray`
         (n_samples, k)
-        Cluster memberships
+        Cluster memberships_
     :class:`np.ndarray`
         (k, n_features)
-        Cluster centers
+        Cluster cluster_centers_
 
     """
 
     clusterer = algorithms.Probabilistic(n_clusters=k, random_state=random_state)
     clusterer.converge(x)
-    return clusterer.memberships, clusterer.centers
+    return clusterer.memberships_, clusterer.cluster_centers_
