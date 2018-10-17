@@ -1,4 +1,12 @@
-import pytest
+from skcmeans.algorithms import CMeans
+
+import numpy as np
+
+
+def test_initialize(algorithm: CMeans):
+    assert algorithm._initialized is False
+    algorithm.cluster_centers_ = np.array([(0, 1), (0, -1)])
+    assert algorithm._initialized is True
 
 
 def test_first_update(algorithm, blobs):

@@ -1,7 +1,4 @@
 import pytest
-from unittest import TestCase, mock
-
-import numpy as np
 
 from skcmeans.initialization import initialize_random, initialize_probabilistic
 

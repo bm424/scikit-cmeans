@@ -67,6 +67,8 @@ class CMeans:
         self.eps = eps
         self.metric = metric
         self.initialization = initialization
+        self.cluster_centers_ = None
+        self.memberships_ = None
 
     def distances(self, x):
         """Calculates the distance between data x and the cluster_centers_.
@@ -172,21 +174,25 @@ class CMeans:
             The original data.
 
         """
-        self.initialize(x)
+        if not self._initialized:
+            self.initialize(x)
         self.memberships_ = self.calculate_memberships(x)
         self.cluster_centers_ = self.calculate_centers(x)
 
+    @property
+    def _initialized(self):
+        return self.cluster_centers_ is not None
+
     def initialize(self, x):
         x = self._check_fit_data(x)
+        initialization = self.initialization(x, self.n_clusters, self.random_state)
         if self.cluster_centers_ is None and self.memberships_ is None:
-            self.memberships_, self.cluster_centers_ = \
-                self.initialization(x, self.n_clusters, self.random_state)
+            self.memberships_, self.cluster_centers_ = initialization
         elif self.memberships_ is None:
-            self.memberships_ = \
-                self.initialization(x, self.n_clusters, self.random_state)[0]
+            self.n_clusters = self.cluster_centers_.shape[0]
+            self.memberships_ = initialization[0]
         elif self.cluster_centers_ is None:
-            self.cluster_centers_ = \
-                self.initialization(x, self.n_clusters, self.random_state)[1]
+            self.cluster_centers_ = initialization[1]
 
     def plot(self, x, method="contour", *args, **kwargs):
         if method is "contour":
