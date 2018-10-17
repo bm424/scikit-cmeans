@@ -7,8 +7,6 @@ References
    Publishers, 2005.
 
 """
-import tqdm
-
 import numpy as np
 from scipy.spatial.distance import cdist
 
@@ -19,27 +17,28 @@ from .initialization import initialize_random, initialize_probabilistic
 class CMeans:
     """Base class for C-means algorithms.
 
-    Attributes
+    Parameters
     ----------
     metric : :obj:`string` or :obj:`function`
         The distance metric used. May be any of the strings specified for
         :obj:`cdist`, or a user-specified function.
     initialization : function
-        The method used to initialize the cluster cluster_centers_.
-    centers : :obj:`np.ndarray`
+        The method used to initialize the cluster_centers_.
+
+    Attributes
+    ----------
+    cluster_centers_ : :obj:`np.ndarray`
         (n_clusters, n_features)
-        The derived or supplied cluster cluster_centers_.
-    memberships : :obj:`np.ndarray`
+        The derived or supplied cluster centers.
+    memberships_ : :obj:`np.ndarray`
         (n_samples, n_clusters)
-        The derived or supplied cluster memberships_.
+        The derived or supplied cluster memberships.
 
     """
 
-    metric = 'euclidean'
-    initialization = staticmethod(initialize_random)
-
     def __init__(self, n_clusters=2, n_init=10, max_iter=300, tol=1e-4,
-                 verbosity=0, random_state=None, eps=1e-18, **kwargs):
+                 verbosity=0, random_state=None, eps=1e-18,
+                 metric='euclidean', initialization=initialize_random):
         """
         Parameters
         ----------
@@ -66,11 +65,8 @@ class CMeans:
         self.verbosity = verbosity
         self.random_state = random_state
         self.eps = eps
-        self.params = kwargs
-        self.cluster_centers_ = None
-        self.memberships_ = None
-        if 'metric' in kwargs:
-            self.metric = kwargs['metric']
+        self.metric = metric
+        self.initialization = initialization
 
     def distances(self, x):
         """Calculates the distance between data x and the cluster_centers_.
@@ -107,7 +103,7 @@ class CMeans:
             "`objective` should be implemented by subclasses.")
 
     def fit(self, x):
-        """Optimizes cluster_centers_ by restarting convergence several times.
+        """Optimizes cluster centers by restarting convergence several times.
 
         Parameters
         ----------
@@ -119,7 +115,7 @@ class CMeans:
         objective_best = np.infty
         memberships_best = None
         centers_best = None
-        iterator = tqdm.tqdm(range(self.n_init)) if self.verbosity > 0 else range(self.n_init)
+        iterator = range(self.n_init)
         for i in iterator:
             self.cluster_centers_ = None
             self.memberships_ = None
