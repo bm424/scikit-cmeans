@@ -4,16 +4,16 @@ from sklearn.datasets import make_blobs
 from skcmeans.algorithms import Hard, Probabilistic, Possibilistic
 
 algorithm_param_data = {
-    'n_clusters': [2, 3, 5, 7],
-    'max_iter': [10, 50, 100],
-    'tol': [10, 1, 1e-2, 1e-4],
+    'n_clusters': [1, 3],
+    'max_iter': [1, 10],
+    'tol': [1, 1e-2, 1e-4],
     'metric': ['euclidean', 'cityblock', 'cosine']
 }
 
 blob_param_data = {
-    'n_features': [2, 3, 5, 7],
-    'n_samples': [50, 100, 500],
-    'centers': [1, 2, 3, 8],
+    'n_features': [2, 5, 7],
+    'n_samples': [50, 100],
+    'centers': [1, 3, 8],
 }
 
 
