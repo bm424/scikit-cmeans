@@ -20,6 +20,6 @@ setup(
     ],
     keywords='clustering cluster fuzzy classifier classifiers',
     packages=find_packages(exclude=['docs', 'tests']),
-    install_requires=['numpy', 'scipy', 'scikit-learn']
+    install_requires=['numpy', 'scipy', 'scikit-learn', 'hyperspy']
 
 )
