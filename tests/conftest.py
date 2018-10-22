@@ -6,12 +6,12 @@ from skcmeans.algorithms import Hard, Probabilistic, Possibilistic
 algorithm_param_data = {
     'n_clusters': [1, 3],
     'max_iter': [1, 10],
-    'tol': [1, 1e-2, 1e-4],
+    'tol': [1, 1e-2],
     'metric': ['euclidean', 'cityblock', 'cosine']
 }
 
 blob_param_data = {
-    'n_features': [2, 5, 7],
+    'n_features': [2, 5],
     'n_samples': [50, 100],
     'centers': [1, 3, 8],
 }

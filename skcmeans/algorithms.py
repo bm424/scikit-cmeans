@@ -71,7 +71,7 @@ class CMeans:
         self.memberships_ = None
 
     def distances(self, x):
-        """Calculates the distance between data x and the cluster_centers_.
+        """Calculates the distance between data x and the cluster centers.
 
         The distance, by default, is calculated according to `metric`, but this
         method should be overridden by subclasses if required.
@@ -80,7 +80,7 @@ class CMeans:
         ----------
         x : :obj:`np.ndarray`
             (n_samples, n_features)
-            The original data.
+            Sample data.
 
         Returns
         -------
@@ -99,6 +99,19 @@ class CMeans:
     def calculate_centers(self, x):
         raise NotImplementedError(
             "`calculate_centers` should be implemented by subclasses.")
+
+    def predict(self, x):
+        """Predict the cluster labels.
+
+        Parameters
+        ----------
+        x : :obj:`np.ndarray`
+            (n_samples, n_features)
+            Sample data.
+
+        """
+        memberships = self.calculate_memberships(x)
+        return np.argmax(memberships, axis=1)
 
     def objective(self, x):
         raise NotImplementedError(
@@ -181,7 +194,8 @@ class CMeans:
 
     @property
     def _initialized(self):
-        return self.cluster_centers_ is not None
+        return self.cluster_centers_ is not None \
+               and self.memberships_ is not None
 
     def initialize(self, x):
         x = self._check_fit_data(x)
@@ -189,7 +203,6 @@ class CMeans:
         if self.cluster_centers_ is None and self.memberships_ is None:
             self.memberships_, self.cluster_centers_ = initialization
         elif self.memberships_ is None:
-            self.n_clusters = self.cluster_centers_.shape[0]
             self.memberships_ = initialization[0]
         elif self.cluster_centers_ is None:
             self.cluster_centers_ = initialization[1]
@@ -342,8 +355,15 @@ class Possibilistic(Fuzzy):
 
     """
 
-    initialization = staticmethod(initialize_probabilistic)
     _weights = None
+
+    def __init__(self, n_clusters=2, n_init=10, max_iter=300, tol=1e-4,
+                 verbosity=0, random_state=None, eps=1e-18,
+                 metric='euclidean', initialization=initialize_probabilistic):
+        super(Possibilistic, self).__init__(
+            n_clusters, n_init, max_iter, tol, verbosity, random_state, eps,
+            metric, initialization
+        )
 
     def weights(self, x):
         if self._weights is None:

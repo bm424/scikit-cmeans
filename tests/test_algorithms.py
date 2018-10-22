@@ -32,4 +32,12 @@ def test_converge(algorithm, blobs):
     assert results['n_iter'] >= algorithm.max_iter or results['objective_delta'] < algorithm.tol
 
 
+def test_predict(algorithm: CMeans, blobs):
+    data, labels = blobs
+    algorithm.fit(data)
+    prediction = algorithm.predict(data)
+    assert prediction.shape == labels.shape
+    assert set(np.unique(prediction)) <= set(range(algorithm.n_clusters))
+
+
 
