@@ -380,6 +380,7 @@ class GustafsonKesselMixin(Fuzzy):
     >>> pgk.fit(x)
 
     """
+    initialization = staticmethod(initialize_probabilistic)
     covariance = None
 
     def fit(self, x):
@@ -418,15 +419,18 @@ class GustafsonKesselMixin(Fuzzy):
         self.memberships_ = self.calculate_memberships(x)
 
     def distances(self, x):
+        v = self.cluster_centers_
+        if v is None:
+            return None
+        q, p = v.shape
         covariance = self.covariance if self.covariance is not None \
             else self.calculate_covariance(x)
-        d = x - self.cluster_centers_[:, np.newaxis]
-        left_multiplier = \
-            np.einsum('...ij,...jk', d, np.linalg.inv(covariance))
-        return np.sum(left_multiplier * d, axis=2).T
+        d = x - v[:, np.newaxis]
+        A = (np.linalg.det(covariance) ** (1 / p))[..., np.newaxis, np.newaxis] * np.linalg.inv(covariance)
+        return np.einsum('...ki,...ij,...kj->...k', d, A, d).T ** 0.5
 
     def calculate_covariance(self, x):
-        """Calculates the covariance of the data `u` with cluster cluster_centers_ `v`.
+        """Calculates the covariance of the data `x` with cluster cluster_centers_.
 
         Parameters
         ----------
@@ -444,18 +448,9 @@ class GustafsonKesselMixin(Fuzzy):
         v = self.cluster_centers_
         if v is None:
             return None
-        q, p = v.shape
-        if self.memberships_ is None:
-            # If no memberships_ have been calculated assume n-spherical clusters
-            return (np.eye(p)[..., np.newaxis] * np.ones((p, q))).T
-        q, p = v.shape
-        vector_difference = x - v[:, np.newaxis]
+        d = x - v[:, np.newaxis]
         fuzzy_memberships = self.fuzzifier(self.memberships_)
-        right_multiplier = \
-            np.einsum('...i,...j->...ij', vector_difference, vector_difference)
-        einstein_sum = \
-            np.einsum('i...,...ijk', fuzzy_memberships, right_multiplier) / \
-            np.sum(fuzzy_memberships, axis=0)[..., np.newaxis, np.newaxis]
-        return np.nan_to_num(
-            einstein_sum / (np.linalg.det(einstein_sum) ** (1 / q))[
-                ..., np.newaxis, np.newaxis])
+        numerator = \
+            np.einsum('k...,...ki,...kj->...ij', fuzzy_memberships, d, d)
+        denominator = np.sum(fuzzy_memberships, axis=0)[..., np.newaxis, np.newaxis]
+        return numerator / denominator
