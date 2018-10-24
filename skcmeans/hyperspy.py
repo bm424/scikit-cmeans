@@ -147,17 +147,20 @@ def cluster(signal,
             signal.undo_treatments()
         return alg
 
+
 def get_cluster_memberships(signal):
     """Return cluster memberships as a Signal.
     See Also
     --------
     get_cluster_centers
     """
-    signal = signal._get_loadings(signal.learning_results.memberships)
-    signal.axes_manager._axes[0].name = "Cluster index"
-    signal.metadata.General.title = \
+    memberships = signal._get_loadings(
+        signal.learning_results.memberships)
+    memberships.axes_manager._axes[0].name = "Cluster index"
+    memberships.metadata.General.title = \
         "Cluster memberships of " + signal.metadata.General.title
-    return signal
+    return memberships
+
 
 def get_cluster_centers(signal):
     """Return the cluster centers as a Signal.
@@ -165,8 +168,8 @@ def get_cluster_centers(signal):
     -------
     get_cluster_memberships
     """
-    signal = signal._get_factors(signal.learning_results.centers.T)
-    signal.axes_manager._axes[0].name = "Cluster index"
-    signal.metadata.General.title = ("Cluster centers of " +
+    centers = signal._get_factors(signal.learning_results.centers.T)
+    centers.axes_manager._axes[0].name = "Cluster index"
+    centers.metadata.General.title = ("Cluster centers of " +
                                      signal.metadata.General.title)
-    return signal
+    return centers
