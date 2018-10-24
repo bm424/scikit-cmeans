@@ -94,4 +94,4 @@ ENV/
 
 # Custom
 res/
-*.ipynb
+./*.ipynb
