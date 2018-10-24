@@ -45,12 +45,11 @@ def contour(data, algorithm, axes=(0, 1), ax=None, resolution=200,
             ).reshape(resolution, resolution, algorithm.n_clusters)
     if isinstance(levels, float):
         levels = np.arange(levels, 1.0, 0.1)
-    order = algorithm.cluster_centers_[:, -1].argsort(axis=-1)
     if color is None:
         color = plt.cm.tab20(np.linspace(0, 1, algorithm.n_clusters))
     for j, c in zip(range(algorithm.n_clusters), color):
         print("Plotting cluster {} ({})".format(j, c))
-        contours = ax.contour(xv, yv, estimated_memberships[:, :, order[j]],
+        contours = ax.contour(xv, yv, estimated_memberships[:, :, j],
                               colors=mc.rgb2hex(c), levels=levels)
         if labels:
             ax.clabel(contours, inline=1)
@@ -67,16 +66,15 @@ def contour(data, algorithm, axes=(0, 1), ax=None, resolution=200,
 
 def scatter(data, algorithm, axes=(0, 1), ax=None, x_domain=None, y_domain=None, legend_loc="best", legend_order=None, legend_labels=None, color=None, size_multiplier=1.0):
     ax, x, x_domain, y, y_domain = setup_plot(ax, axes, data, x_domain, y_domain)
-    order = algorithm.cluster_centers_[:, -1].argsort(axis=-1)
     if color is None:
         color = plt.cm.tab20(np.linspace(0, 1, algorithm.n_clusters))
     legend_handles = []
     for j, c in zip(range(algorithm.n_clusters), color):
         print("Plotting cluster {} ({})".format(j, c))
-        condition = algorithm.memberships_[:, order[j]] > 0.5
+        condition = algorithm.memberships_[:, j] > 0.5
         xv = x[condition]
         yv = y[condition]
-        s = algorithm.memberships_[:, order[j]][condition] - 0.5
+        s = algorithm.memberships_[:, j][condition] - 0.5
         handle = ax.scatter(xv, yv, s=s*size_multiplier, c=mc.rgb2hex(c))
         legend_handles.append(handle)
     if legend_loc is not None:
