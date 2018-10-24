@@ -47,7 +47,7 @@ def contour(data, algorithm, axes=(0, 1), ax=None, resolution=200,
         levels = np.arange(levels, 1.0, 0.1)
     order = algorithm.cluster_centers_[:, -1].argsort(axis=-1)
     if color is None:
-        color = plt.cm.Vega20b(np.linspace(0, 1, algorithm.n_clusters))
+        color = plt.cm.tab20(np.linspace(0, 1, algorithm.n_clusters))
     for j, c in zip(range(algorithm.n_clusters), color):
         print("Plotting cluster {} ({})".format(j, c))
         contours = ax.contour(xv, yv, estimated_memberships[:, :, order[j]],
@@ -61,7 +61,7 @@ def contour(data, algorithm, axes=(0, 1), ax=None, resolution=200,
         ax.set_xlim(*x_domain)
         ax.set_ylim(*y_domain)
     if legend_loc is not None:
-
+        proxies = [plt.Line2D([0], [0], color=c) for c in color]
         plt.legend(proxies, range(algorithm.n_clusters), title="Cluster number")
 
 
@@ -69,7 +69,7 @@ def scatter(data, algorithm, axes=(0, 1), ax=None, x_domain=None, y_domain=None,
     ax, x, x_domain, y, y_domain = setup_plot(ax, axes, data, x_domain, y_domain)
     order = algorithm.cluster_centers_[:, -1].argsort(axis=-1)
     if color is None:
-        color = plt.cm.Vega20b(np.linspace(0, 1, algorithm.n_clusters))
+        color = plt.cm.tab20(np.linspace(0, 1, algorithm.n_clusters))
     legend_handles = []
     for j, c in zip(range(algorithm.n_clusters), color):
         print("Plotting cluster {} ({})".format(j, c))
