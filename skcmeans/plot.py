@@ -48,7 +48,7 @@ def contour(data, algorithm, axes=(0, 1), ax=None, resolution=200,
     if color is None:
         color = plt.cm.tab20(np.linspace(0, 1, algorithm.n_clusters))
     for j, c in zip(range(algorithm.n_clusters), color):
-        print("Plotting cluster {} ({})".format(j, c))
+        print(f"Plotting cluster {j} ({c})")
         contours = ax.contour(xv, yv, estimated_memberships[:, :, j],
                               colors=mc.rgb2hex(c), levels=levels)
         if labels:
@@ -70,7 +70,7 @@ def scatter(data, algorithm, axes=(0, 1), ax=None, x_domain=None, y_domain=None,
         color = plt.cm.tab20(np.linspace(0, 1, algorithm.n_clusters))
     legend_handles = []
     for j, c in zip(range(algorithm.n_clusters), color):
-        print("Plotting cluster {} ({})".format(j, c))
+        print(f"Plotting cluster {j} ({c})")
         condition = algorithm.memberships_[:, j] > 0.5
         xv = x[condition]
         yv = y[condition]

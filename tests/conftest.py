@@ -19,8 +19,7 @@ blob_param_data = {
 
 def combine_param_data(param_data):
     values_list = itertools.product(*param_data.values())
-    params = [dict(zip(param_data.keys(), v)) for v in values_list]
-    return params
+    return [dict(zip(param_data.keys(), v)) for v in values_list]
 
 algorithm_params = combine_param_data(algorithm_param_data)
 blob_params = combine_param_data(blob_param_data)
