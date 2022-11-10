@@ -131,7 +131,7 @@ class CMeans:
         memberships_best = None
         centers_best = None
         iterator = range(self.n_init)
-        for i in iterator:
+        for _ in iterator:
             self.cluster_centers_ = None
             self.memberships_ = None
             results = self.converge(x)
@@ -164,7 +164,7 @@ class CMeans:
             j_new = self.objective(x)
             if np.abs(j_old - j_new) < self.tol:
                 break
-        results = {
+        return {
             'memberships': self.memberships_,
             'centers': self.cluster_centers_,
             'objective': j_new,
@@ -172,7 +172,6 @@ class CMeans:
             'n_iter': i + 1,
             'algorithm': self,
         }
-        return results
 
     def update(self, x):
         """Updates cluster memberships_ and cluster_centers_ in a single cycle.
@@ -213,7 +212,7 @@ class CMeans:
         elif method is "scatter":
             plot.scatter(x, self, *args, **kwargs)
         else:
-            raise NotImplementedError("Method '{}' is not implemented.".format(method))
+            raise NotImplementedError(f"Method '{method}' is not implemented.")
 
     def _check_fit_data(self, x):
         if x.shape[0] < self.n_clusters:
